@@ -392,3 +392,26 @@ get_footer();
 </form>
 
 ?>
+
+// Handle send email form contact form 7
+Hello Admin,<br><br>
+
+A contact form has been submitted on [_site_title]. <br><br>
+
+Following are it's details:<br><br>
+
+First Name: [f-name]<br>
+Last Name: [l-name]<br>
+Your Email: [email]<br>
+Phone:  [phone]
+your Title: [title]<br>
+Company Name: [company]<br>
+your Address:[address]<br>
+your Number of Trucks:[nof]<br><br>
+Message: [text]
+
+
+-- 
+This e-mail was sent from a contact form on [_site_title] ([_site_url]) <br><br>
+Regards,<br>
+[_site_title]
