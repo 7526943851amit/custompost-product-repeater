@@ -354,4 +354,35 @@ function add_to_wishlist() {
  
  
 //  !3V&bHH#gLr^m(8$qe
+
+
+<?php
+get_header();
+if (isset($_POST['post_title_search'])) {
+    $search_query = sanitize_text_field($_POST['post_title_search']);
+    $args = array(
+        'post_type' => 'post',
+        'post_status' => 'publish',
+        's' => $search_query,
+    );
+    $search_results = new WP_Query($args);
+
+    if ($search_results->have_posts()) {
+        echo '<h2>Search Results:</h2>';
+        while ($search_results->have_posts()) {
+            $search_results->the_post();
+            the_title('<h3>', '</h3>');
+        }
+        wp_reset_postdata();
+    } else {
+        echo '<p>No results found.</p>';
+    }
+}
+get_footer();
+?>
+<form method="post" action="<?php echo esc_url(home_url('/custom-search-template/')); ?>">
+    <input type="text" name="post_title_search" placeholder="Search by Post Title">
+    <input type="submit" value="Search">
+</form>
+
 ?>
