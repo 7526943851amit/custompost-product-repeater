@@ -280,6 +280,12 @@ function save_custom_meta_data($post_id) {
     }
 }
 add_action('save_post', 'save_custom_meta_data');
+if (!empty($meta_name)) {
+    echo '<meta name="description" content="' . esc_attr($meta_name) . '">';
+}
+if (!empty($meta_description)) {
+    echo '<meta name="description" content="' . esc_attr($meta_description) . '">';
+}
 
 
 
