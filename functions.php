@@ -559,3 +559,41 @@ jQuery(document).ready(function($) {
 This e-mail was sent from a contact form on [_site_title] ([_site_url]) <br><br>
 Regards,<br>
 [_site_title]
+//add filter
+
+
+function add_custom_user_filter() {
+    global $wpdb;
+    
+    $first_names = $wpdb->get_col("SELECT DISTINCT meta_value FROM $wpdb->usermeta WHERE meta_key = 'first_name'");
+
+    if (count($first_names) > 0) {
+        ?>
+        <select name="user_filter" id="user-filter">
+            <option value="">Select User</option>
+            <?php
+            foreach ($first_names as $first_name) {
+                $selected = (isset($_GET['user_filter']) && $_GET['user_filter'] === $first_name) ? 'selected' : '';
+                echo '<option value="' . esc_attr($first_name) . '" ' . $selected . '>' . esc_html($first_name) . '</option>';
+            }
+            ?>
+        </select>
+        <script>
+            jQuery(document).ready(function($) {
+                $('#user-filter').change(function() {
+                    var selectedFirstName = $(this).val();
+
+                    // Hide all rows in the user table
+                    $('table.wp-list-table tr').hide();
+
+                    // Show rows with the matching first name
+                    $('table.wp-list-table tr:has(td:contains("' + selectedFirstName + '"))').show();
+                });
+            });
+        </script>
+        <?php
+    }
+}
+
+add_action('restrict_manage_users', 'add_custom_user_filter');
+
