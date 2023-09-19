@@ -635,3 +635,103 @@ if (function_exists('register_sidebar')) {
 apperance mein jakar fir widgets mein aa jaaynege nav mennu tab pe clcik krke bnate jao fir get aise krna footer mein 
 <?php dynamic_sidebar('footer-left-widget'); ?> je id pass krke
 
+
+//hedaer dynamic 
+
+function wp_get_menu_array($current_menu) {
+ $array_menu = wp_get_nav_menu_items($current_menu);
+    $menu = array();
+    foreach ($array_menu as $m) {
+        if (empty($m->menu_item_parent)) {
+            $menu[$m->ID] = array();
+            $menu[$m->ID]['ID']      =   $m->ID;
+            $menu[$m->ID]['title']       =   $m->title;
+            $menu[$m->ID]['url']         =   $m->url;
+			$menu[$m->ID]['title_attr']   = $m->attr_title;
+            $menu[$m->ID]['children']    =   array();
+        }
+    }
+    $submenu = array();
+    foreach ($array_menu as $m) {
+        if ($m->menu_item_parent) {
+            $submenu[$m->ID] = array();
+            $submenu[$m->ID]['ID']       =   $m->ID;
+            $submenu[$m->ID]['title']    =   $m->title;
+            $submenu[$m->ID]['url']  =   $m->url;
+			 $submenu[$m->ID]['title_attr']    = $m->attr_title;
+			 if (isset($m->classes[0]) && $m->classes[0]!='') {
+				$submenu[$m->ID]['class']  =   $m->classes[0];
+			}
+            $menu[$m->menu_item_parent]['children'][$m->ID] = $submenu[$m->ID];
+        }
+    }
+    return $menu;
+}
+
+
+
+add_action('init', 'register_custom_posts_our_services');
+
+fucntion.php ka hai je aur je hedaer.php ka jo aagye hai 
+<?php $menu=wp_get_menu_array('New_Menu') ; 
+					 //echo '<pre>';print_r($menu);echo '</pre>';?>
+                     <ul class="nav-sub-menu">
+					 <?php 
+						$x=1;
+						foreach($menu as $mh) 
+						{ 
+							if(!empty($mh['children'])){
+							
+				        ?>
+                        <li>
+						<div class="myclass">
+                           <a class="mega-menu-trigger" href="<?php echo $mh['url']; ?>"><?php echo $mh['title']; ?> </a><span class="customnewclass"><i class="fa-solid fa-chevron-down"></i></span>
+						   </div>
+                           <div class="mega-menu">
+                              <div class="container newclass">
+                                 <div class="row">
+								 <?php 
+						$i=1;
+								foreach($mh['children']  as $childm)
+								{
+						    ?>
+                                    <div class="col-lg-4 col-sm-6">
+                                       <div class="inner-megamenu">
+                                          <div class="icon-img">
+										   <?php  
+										   if(!empty($childm['class'])){
+										   $theme_path = get_stylesheet_directory_uri(); 
+										   //print_r($theme_path);
+										   $external_file_path = $theme_path . '/menuimage/'.$childm['class'].'.png';
+										   //print_r($external_file_path);
+										   
+										   ?>
+                                             <img src="<?php echo $external_file_path;?>" alt="">
+										   <?php } ?>
+                                          </div>
+                                          <div class="menu-link">
+                                             <ul>
+                                                <li><a href="<?php echo $childm['url']; ?>"><?php echo $childm['title']; ?></a></li>
+                                             </ul>
+                                             <p><?php echo $childm['title_attr']; ?></p>
+                                          </div>
+                                       </div>
+                                    </div>
+								<?php } ?>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+							<?php } ?>
+                        
+						<?php
+							if(empty($mh['children']))
+							{
+						?>
+                        <li>
+                           <a href="<?php echo $mh['url']; ?>" class=""><?php echo $mh['title']; ?> </a>
+                        </li>
+						<?php } }?>
+                     </ul>
+
+// headr dynamic ka je end hai
