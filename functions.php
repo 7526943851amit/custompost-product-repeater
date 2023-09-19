@@ -597,3 +597,41 @@ function add_custom_user_filter() {
 
 add_action('restrict_manage_users', 'add_custom_user_filter');
 
+
+
+
+//footer dynamic 
+if (function_exists('register_sidebar')) {
+    register_sidebar(array(
+        'name' => 'Footer Left',
+        'id'   => 'footer-left-widget',
+        'description' => 'Left Footer widget position.',
+        'before_widget' => '<div id="%1$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h2>',
+        'after_title'   => '</h2>'
+    ));
+
+    register_sidebar(array(
+        'name' => 'Footer Center',
+        'id'   => 'footer-center-widget',
+        'description' => 'Center Footer widget position.',
+        'before_widget' => '<div id="%1$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h2>',
+        'after_title'   => '</h2>'
+    ));
+
+    register_sidebar(array(
+        'name' => 'Footer Right',
+        'id'   => 'footer-right-widget',
+        'description' => 'Right Footer widget position.',
+        'before_widget' => '<div id="%1$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h2>',
+        'after_title'   => '</h2>'
+    ));
+}
+apperance mein jakar fir widgets mein aa jaaynege nav mennu tab pe clcik krke bnate jao fir get aise krna footer mein 
+<?php dynamic_sidebar('footer-left-widget'); ?> je id pass krke
+
