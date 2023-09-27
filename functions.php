@@ -735,3 +735,85 @@ fucntion.php ka hai je aur je hedaer.php ka jo aagye hai
                      </ul>
 
 // headr dynamic ka je end hai
+
+// simple register
+ <form method="post" action="">
+                <div class="input-form">
+                    <input type="text" name="fname" placeholder="First Name">
+                    <input type="text" name="lname" placeholder="Last Name">
+                    <input type="text" name="uname" placeholder="User Name">
+                    <input type="email" name="email" placeholder="Email">
+                    <input type="password" name="password" placeholder="Password">
+                    <button type="submit" class="common-btn green">Become a Volunteer</button>
+                    <!-- Display the registration message here -->
+                    <?php
+                    if (isset($registration_message) && !empty($registration_message)) {
+                        echo '<p>' . $registration_message . '</p>';
+                    }
+                    ?>
+                    <p>Already Have An Account? <a href="<?php echo site_url('sign-in'); ?>" class="sign-link">Sign In</a></p>
+                </div>
+            </form>
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $registration_message = ''; 
+    $first_name = sanitize_text_field($_POST['fname']);
+    $last_name = sanitize_text_field($_POST['lname']);
+    $user_name = sanitize_user($_POST['uname']);
+    $email = sanitize_email($_POST['email']);
+    $password = $_POST['password']; 
+
+    if (username_exists($user_name) || email_exists($email)) {
+        $registration_message = 'Username or email already exists. Please choose another one.';
+    } else {
+        $user_id = wp_create_user($user_name, $password, $email);
+
+        if (is_wp_error($user_id)) {
+            $registration_message = 'Registration failed. Please try again.';
+        } else {
+            wp_update_user(array(
+                'ID' => $user_id,
+                'first_name' => $first_name,
+                'last_name' => $last_name
+            ));
+            $registration_message = 'Registration successful.';
+        }
+    }
+}
+//register end
+
+//login users
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $custom_username_or_email = sanitize_user($_POST['custom_username_or_email']);
+    $custom_password = $_POST['custom_password'];
+
+    // Authenticate user using username or email
+    $user = wp_authenticate($custom_username_or_email, $custom_password);
+
+    if (is_wp_error($user)) {
+        // Authentication failed, display an error message
+        $login_message = 'Invalid username, email, or password. Please try again.';
+    } else {
+        // Authentication successful, log the user in
+        wp_set_current_user($user->ID);
+        wp_set_auth_cookie($user->ID);
+        do_action('wp_login', $user->user_login);
+
+        // Set a message for successful login
+        $login_message = 'You are logged in.';
+    }
+}
+  <div class="input-form">
+                 <form method="post" action="">
+        
+        <input type="text" name="custom_username_or_email" id="custom_username_or_email" placeholder="Email or Username"/>
+      
+        <input type="password" name="custom_password" id="custom_password" placeholder="Password"/>
+        <input type="submit" value="Log In" />
+		<?php
+		if (isset($login_message) && !empty($login_message)) {
+        echo '<p>' . $login_message . '</p>';
+    }
+	?>
+    </form>
+// login users end
