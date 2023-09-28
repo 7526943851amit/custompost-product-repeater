@@ -201,6 +201,7 @@ function custom_meta_box2() {
         'Custom Meta Box', // Box title
         'render_custom_meta_box2', // Callback function to render the meta box
         'location', // Post type
+	    array('post', 'page'); // agar psot aur page dono mein dikhana ho toh
         'normal', // Priority
         'high' // Position
     );
