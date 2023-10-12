@@ -843,4 +843,24 @@ function add_accessory_fees() {
         WC()->cart->add_fee('My  Fee', 10);
     }
 }
+	  //addd loader code start page refreh rehta jab tak
 add_action('woocommerce_cart_calculate_fees', 'add_accessory_fees');
+  <div id="loader">
+    <img src="http://localhost/woocomerce_project/wordpress/wp-content/uploads/2023/10/amalie-steiness.gif" alt="Loading...">
+  </div>
+</div>
+<script>
+jQuery(document).ready(function($) {
+    var loader = $('#loader');
+    
+    // Show the loader when the page starts refreshing
+    $(window).on('beforeunload', function() {
+        loader.show();
+    });
+
+    // Hide the loader when the page has finished refreshing
+    $(window).on('load', function() {
+        loader.hide();
+    });
+});
+</script>
