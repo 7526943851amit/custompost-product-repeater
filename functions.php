@@ -818,3 +818,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	?>
     </form>
 // login users end
+
+
+	  // 10 $ add hongye product jab total hoga sirf accessories category ko
+function add_accessory_fees() {
+    // Check if the current cart contains any products from the Accessories category
+    $accessory_category_id = get_term_by('name', 'accessories', 'product_cat')->term_id; // "accessories" is the name of your category
+
+    $has_accessory = false;
+
+    foreach (WC()->cart->get_cart() as $cart_item) {
+        $product_id = $cart_item['product_id'];
+        $product = wc_get_product($product_id);
+        $categories = $product->get_category_ids();
+
+        if (in_array($accessory_category_id, $categories)) {
+            $has_accessory = true;
+            break;
+        }
+    }
+
+    // If there are products from the Accessories category, add the $10 fee
+    if ($has_accessory) {
+        WC()->cart->add_fee('My  Fee', 10);
+    }
+}
+add_action('woocommerce_cart_calculate_fees', 'add_accessory_fees');
