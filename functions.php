@@ -864,3 +864,12 @@ jQuery(document).ready(function($) {
     });
 });
 </script>
+// custom categories get and print using term function
+  <?php
+            $terms = get_the_terms(get_the_ID(), 'cat-newsroom');
+            if (!empty($terms)) {
+                foreach ($terms as $term) {
+                    echo '<span class="' . $term->slug . '">' . $term->name . '</span>';
+                }
+            }
+            ?>
