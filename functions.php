@@ -873,3 +873,15 @@ jQuery(document).ready(function($) {
                 }
             }
             ?>
+create child thme
+/*
+Theme Name:   feed-child
+Theme URI:    https://www.wpbeginner.com/
+Description:  A feed child theme 
+Author:       WPBeginner
+Author URI:   https://www.wpbeginner.com
+Template:     feed
+Version:      1.0.0
+Text Domain:  feedchild
+*/
+end
