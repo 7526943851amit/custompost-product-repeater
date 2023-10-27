@@ -10,7 +10,7 @@
  */
 ?>
 <?php
-get_header();
+get_header(); // Include the header of your theme
 ?>
 
 <!-- Blog Start -->
@@ -51,13 +51,18 @@ get_header();
     <div class="mb-5">
         <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 mb-4">Recent Posts</h4>
         <?php
-        // Get recent posts
-        $recent_posts = wp_get_recent_posts(array(
-            'numberposts' => 5, // You can change the number of recent posts to display
+        // Get the current post ID
+        $current_post_id = get_the_ID();
+
+        // Get recent posts excluding the current post
+        $recent_posts = new WP_Query(array(
+            'post_type' => 'post',
+            'posts_per_page' => 5, // Number of recent posts to display
+            'post__not_in' => array($current_post_id), // Exclude the current post
         ));
 
-        foreach ($recent_posts as $post) {
-            setup_postdata($post);
+        while ($recent_posts->have_posts()) {
+            $recent_posts->the_post();
         ?>
             <div class="d-flex rounded overflow-hidden mb-3">
                 <img class="img-fluid" src="<?php the_post_thumbnail_url('thumbnail'); ?>" style="width: 100px; height: 100px; object-fit: cover;" alt="">
@@ -72,8 +77,9 @@ get_header();
 
     <!-- Your other sidebar content here -->
 </div>
-<!-- Sidebar End -->
 
+
+        <!-- Sidebar End -->
     </div>
 </div>
 <!-- Blog End -->
