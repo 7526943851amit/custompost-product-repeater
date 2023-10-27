@@ -1,4 +1,4 @@
-// Function for nav menu
+// Function for nav menu  fucntion file code
 function wp_get_menu_array($current_menu) {
  $array_menu = wp_get_nav_menu_items($current_menu);
     $menu = array();
@@ -29,3 +29,43 @@ function wp_get_menu_array($current_menu) {
     }
     return $menu;
 }
+
+// function file code end
+header filed code
+<div class="collapse navbar-collapse" id="navbarCollapse">
+                    <?php
+					$menu = wp_get_menu_array('Header Menus');
+
+// Start the navigation bar
+echo '<div class="collapse navbar-collapse" id="navbarCollapse">';
+echo '<div class="navbar-nav ms-auto py-0">';
+
+foreach ($menu as $menuItem) {
+    $url = $menuItem['url'];
+    $text = $menuItem['title'];
+
+    if (empty($menuItem['children'])) {
+        echo '<a href="' . $url . '" class="nav-item nav-link">' . $text . '</a>';
+    } else {
+        echo '<div class="nav-item dropdown">';
+        echo '<a href="' . $url . '" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">' . $text . '</a>';
+        echo '<div class="dropdown-menu m-0">';
+
+        foreach ($menuItem['children'] as $submenuItem) {
+            $submenuUrl = $submenuItem['url'];
+            $submenuText = $submenuItem['title'];
+            echo '<a href="' . $submenuUrl . '" class="dropdown-item">' . $submenuText . '</a>';
+        }
+
+        echo '</div>'; // Close dropdown menu
+        echo '</div>'; // Close nav-item dropdown
+    }
+}
+
+// Close the navigation bar
+echo '</div>';
+echo '</div>';
+					
+					?>
+                </div>
+//header file cdoe end
