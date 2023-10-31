@@ -69,3 +69,46 @@ echo '</div>';
 					?>
                 </div>
 //header file cdoe end
+
+
+
+
+
+//create custom post type gorav sir 
+
+function register_custom_posts_portfolio() {
+ 
+    $register_labels = array(
+        'name'               => 'Service',
+        'singular_name'      => 'service',
+        'menu_name'          => 'Service'
+    );
+$products_args = array(
+    'labels'             => $register_labels,
+    'public'             => true,
+    'capability_type'    => 'post',
+    'has_archive'        => true,
+    'exclude_from_search' => false,
+    'supports'           => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions', 'custom-fields', 'comments'),
+);
+
+    register_post_type('service', $products_args);
+ 
+  register_taxonomy(
+      'services',
+      'service',
+     array(
+       'label' => __('Service Categories'),
+       'rewrite' => array( 'slug' => 'services' ),
+       'hierarchical' => true,
+      )
+    );
+ 
+}
+
+function switch_on_comments_automatically(){
+    global $wpdb;
+    $wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET comment_status = 'open'")); 
+}
+switch_on_comments_automatically();
+//end custom post type gorav sir
