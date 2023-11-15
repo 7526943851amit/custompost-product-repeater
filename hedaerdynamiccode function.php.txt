@@ -132,3 +132,351 @@ RewriteRule . /hardges/index.php [L]
     php_value max_execution_time 300
     php_value max_input_time 300
 </IfModule>
+<?php
+if( function_exists('acf_add_options_page') ) {
+    
+   
+     acf_add_options_page(array(
+        'page_title'    => 'Theme Header Settings',
+        'menu_title'    => 'Header',
+		'menu_slug'     => 'theme-header-settings',
+        'capability'    => 'edit_posts',
+    ));
+    
+    acf_add_options_page(array(
+        'page_title'    => 'Theme Footer Settings',
+        'menu_title'    => 'Footer',
+       'menu_slug'     => 'theme-footer-settings',
+        'capability'    => 'edit_posts',
+    ));
+    
+}
+
+function wpse55748_filter_post_thumbnail_html( $html ) {
+    // If there is no post thumbnail,
+    // Return a default image
+    if ( '' == $html ) {
+        return '<img src="' . get_template_directory_uri() . '/images/default-thumbnail.png" width="150px" height="100px" class="image-size-name" />';
+    }
+    // Else, return the post thumbnail
+    return $html;
+}
+add_filter( 'post_thumbnail_html', 'wpse55748_filter_post_thumbnail_html' );
+
+
+add_action('init', 'register_custom_posts_directory');
+function register_custom_posts_directory() {
+ 
+    $register_labels = array(
+        'name'               => 'Directory',
+        'singular_name'      => 'directory',
+        'menu_name'          => 'Directory'
+    );
+    $products_args = array(
+        'labels'             => $register_labels,
+        'public'             => true,
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'exclude_from_search' =>false,
+        'supports'           => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions','custom-fields')
+    );
+    register_post_type('directory', $products_args);
+ 
+ 
+register_taxonomy(
+      'cat-city',
+      'directory',
+     array(
+       'label' => __('City'),
+       'rewrite' => array( 'slug' => 'cat-city' ),
+       'hierarchical' => true,
+      )
+    );
+ 
+ 
+  register_taxonomy(
+      'cat-city',
+      'directory',
+     array(
+       'label' => __('City'),
+       'rewrite' => array( 'slug' => 'cat-city' ),
+       'hierarchical' => true,
+      )
+    );
+	register_taxonomy(
+      'cat-industry',
+      'directory',
+     array(
+       'label' => __('Industry'),
+       'rewrite' => array( 'slug' => 'cat-industry' ),
+       'hierarchical' => true,
+      )
+    );
+register_taxonomy(
+      'cat-year',
+      'directory',
+     array(
+       'label' => __('Year'),
+       'rewrite' => array( 'slug' => 'cat-year' ),
+       'hierarchical' => true,
+      )
+    );
+ 
+}
+function register_custom_widget_area() {
+register_sidebar(
+array(
+'id' => 'new-widget-area',
+'name' => esc_html__( 'My new widget area', 'theme-domain' ),
+'description' => esc_html__( 'A new widget area made for testing purposes', 'theme-domain' ),
+'before_widget' => '<div id="%1$s" class="widget %2$s">',
+'after_widget' => '</div>',
+'before_title' => '<div class="widget-title-holder"><h3 class="widget-title">',
+'after_title' => '</h3></div>'
+)
+);
+}
+
+add_action( 'widgets_init', 'register_custom_widget_area' );
+/*function is_business_email($email){
+	if(preg_match('/@hotmail.com/i', $email) ||
+		preg_match('/@gmail.com/i', $email) ||
+		preg_match('/@yahoo.co/i', $email) ||
+		preg_match('/@yahoo.com/i', $email) ||
+		preg_match('/@mailinator.com/i', $email) ||
+		preg_match('/@gmail.co.in/i', $email) ||
+		preg_match('/@aol.com/i', $email) ||
+		preg_match('/@yandex.com/i', $email) ||
+		preg_match('/@msn.com/i', $email) ||
+		preg_match('/@gawab.com/i', $email) ||
+		preg_match('/@inbox.com/i', $email) ||
+		preg_match('/@gmx.com/i', $email) ||
+		preg_match('/@rediffmail.com/i', $email) ||
+		preg_match('/@in.com/i', $email) ||
+		preg_match('/@live.com/i', $email) ||
+		preg_match('/@hotmail.co.uk/i', $email) ||
+		preg_match('/@hotmail.fr/i', $email) ||
+		preg_match('/@yahoo.fr/i', $email) ||
+		preg_match('/@wanadoo.fr/i', $email) ||
+		preg_match('/@wanadoo.fr/i', $email) ||
+		preg_match('/@comcast.net/i', $email) ||
+		preg_match('/@yahoo.co.uk/i', $email) ||
+		preg_match('/@yahoo.com.br/i', $email) ||
+		preg_match('/@yahoo.co.in/i', $email) ||
+		preg_match('/@rediffmail.com/i', $email) ||
+		preg_match('/@free.fr/i', $email) ||
+		preg_match('/@gmx.de/i', $email) ||
+		preg_match('/@gmx.de/i', $email) ||
+		preg_match('/@yandex.ru/i', $email) ||
+		preg_match('/@ymail.com/i', $email) ||
+		preg_match('/@libero.it/i', $email) ||
+		preg_match('/@outlook.com/i', $email) ||
+		preg_match('/@uol.com.br/i', $email) ||
+		preg_match('/@bol.com.br/i', $email) ||
+		preg_match('/@mail.ru/i', $email) ||
+		preg_match('/@cox.net/i', $email) ||
+		preg_match('/@hotmail.it/i', $email) ||
+		preg_match('/@sbcglobal.net/i', $email) ||
+		preg_match('/@sfr.fr/i', $email) ||
+		preg_match('/@live.fr/i', $email) ||
+		preg_match('/@verizon.net/i', $email) ||
+		preg_match('/@live.co.uk/i', $email) ||
+		preg_match('/@googlemail.com/i', $email) ||
+		preg_match('/@yahoo.es/i', $email) ||
+		preg_match('/@ig.com.br/i', $email) ||
+		preg_match('/@live.nl/i', $email) ||
+		preg_match('/@bigpond.com/i', $email) ||
+		preg_match('/@terra.com.br/i', $email) ||
+		preg_match('/@yahoo.it/i', $email) ||
+		preg_match('/@neuf.fr/i', $email) ||
+		preg_match('/@yahoo.de/i', $email) ||
+		preg_match('/@live.com/i', $email) ||
+		preg_match('/@yahoo.de/i', $email) ||
+		preg_match('/@rocketmail.com/i', $email) ||
+		preg_match('/@att.net/i', $email) ||
+		preg_match('/@laposte.net/i', $email) ||
+		preg_match('/@facebook.com/i', $email) ||
+		preg_match('/@bellsouth.net/i', $email) ||
+		preg_match('/@yahoo.in/i', $email) ||
+		preg_match('/@hotmail.es/i', $email) ||
+		preg_match('/@charter.net/i', $email) ||
+		preg_match('/@yahoo.ca/i', $email) ||
+		preg_match('/@yahoo.com.au/i', $email) ||
+		preg_match('/@rambler.ru/i', $email) ||
+		preg_match('/@hotmail.de/i', $email) ||
+		preg_match('/@tiscali.it/i', $email) ||
+		preg_match('/@shaw.ca/i', $email) ||
+		preg_match('/@yahoo.co.jp/i', $email) ||
+		preg_match('/@sky.com/i', $email) ||
+		preg_match('/@earthlink.net/i', $email) ||
+		preg_match('/@optonline.net/i', $email) ||
+		preg_match('/@freenet.de/i', $email) ||
+		preg_match('/@t-online.de/i', $email) ||
+		preg_match('/@aliceadsl.fr/i', $email) ||
+		preg_match('/@virgilio.it/i', $email) ||
+		preg_match('/@home.nl/i', $email) ||
+		preg_match('/@qq.com/i', $email) ||
+		preg_match('/@telenet.be/i', $email) ||
+		preg_match('/@me.com/i', $email) ||
+		preg_match('/@yahoo.com.ar/i', $email) ||
+		preg_match('/@tiscali.co.uk/i', $email) ||
+		preg_match('/@yahoo.com.mx/i', $email) ||
+		preg_match('/@gmx.net/i', $email) ||
+		preg_match('/@mail.com/i', $email) ||
+		preg_match('/@planet.nl/i', $email) ||
+		preg_match('/@tin.it/i', $email) ||
+		preg_match('/@live.it/i', $email) ||
+		preg_match('/@ntlworld.com/i', $email) ||
+		preg_match('/@arcor.de/i', $email) ||
+		preg_match('/@yahoo.co.id/i', $email) ||
+		preg_match('/@frontiernet.net/i', $email) ||
+		preg_match('/@hetnet.nl/i', $email) ||
+		preg_match('/@live.com.au/i', $email) ||
+		preg_match('/@yahoo.com.sg/i', $email) ||
+		preg_match('/@zonnet.nl/i', $email) ||
+		preg_match('/@club-internet.fr/i', $email) ||
+		preg_match('/@juno.com/i', $email) ||
+		preg_match('/@optusnet.com.au/i', $email) ||
+		preg_match('/@blueyonder.co.uk/i', $email) ||
+		preg_match('/@bluewin.ch/i', $email) ||
+		preg_match('/@skynet.be/i', $email) ||
+		preg_match('/@sympatico.ca/i', $email) ||
+		preg_match('/@windstream.net/i', $email) ||
+		preg_match('/@mac.com/i', $email) ||
+		preg_match('/@centurytel.net/i', $email) ||
+		preg_match('/@chello.nl/i', $email) ||
+		preg_match('/@live.ca/i', $email) ||
+		preg_match('/@aim.com/i', $email) ||
+		preg_match('/@bigpond.net.au/i', $email))
+	{
+		return false; // Itâ€™s a publicly available email address
+	}
+	else{
+		return true; // Itâ€™s probably a company email address
+	}
+}
+function custom_email_validation_filter($result, $tag) {
+	$tag = new WPCF7_Shortcode( $tag );
+	if ( 'email-71' == $tag->name ) {
+		$the_value = isset( $_POST['email-71'] ) ? trim( $_POST['email-71'] ) : "";
+		if(!is_business_email($the_value)){
+			$result->invalidate( $tag, "Please enter a valid business email" );
+		}
+	}
+	return $result;
+}
+add_filter( 'wpcf7_validate_email', 'custom_email_validation_filter', 10, 2 );
+add_filter( 'wpcf7_validate_email*', 'custom_email_validation_filter', 10, 2 );*/
+function tinyMCEoptions($options) {
+    
+
+    $options['extended_valid_elements'] = 'span';
+    return $options;
+}
+add_filter('tiny_mce_before_init', 'tinyMCEoptions');
+
+add_action('wp_ajax_directory_listing', 'directory_listing');
+add_action('wp_ajax_nopriv_directory_listing', 'directory_listing');
+
+function directory_listing() {
+	$city=$_REQUEST['city'];
+	$industry=$_REQUEST['industry'];
+	$year=$_REQUEST['year'];
+	$args = array(
+		'post_type'=> 'directory',
+		'post_status' => 'publish',
+		'posts_per_page'        => -1,
+		'order'          => 'desc',
+	);
+	if($city !=''){
+		$tax_query[] = array(
+			'taxonomy'     => 'cat-city',
+			'field'   => 'slug',
+			'compare' => '=',
+			'terms'    => $city,
+		);
+	}	
+	if($industry !=''){
+		$tax_query[] = array(
+			'taxonomy'     => 'cat-industry',
+			'field'   => 'slug',
+			'compare' => '=',
+			'terms'    => $industry,
+		);
+	}
+	if($year !=''){
+		$tax_query[] = array(
+			'taxonomy'     => 'cat-year',
+			'field'   => 'slug',
+			'compare' => '=',
+			'terms'    => $year,
+		);
+	}
+	if(!empty($tax_query)){
+		$args['tax_query'] =  $tax_query;
+	}
+	$query = new WP_Query($args);
+	$html='';
+	
+	 //print_r($query);
+	if($query->have_posts()):
+		while($query->have_posts()) : $query->the_post();
+		
+			$html .='<div class="card list_card">
+					  <div class="directory_list_row">
+						<div class="directory_list_img">
+						
+						<a href="'.get_permalink().'">';
+                         if ( has_post_thumbnail() ) {
+						$html .='<img src="'. get_the_post_thumbnail_url($directorylistings->ID).'" class="card-img" alt="">';
+						  } else
+						  {
+						  $html .='<img src="'.site_url().'/wp-content/uploads/2022/11/ef3-placeholder-image.jpg" alt="" />';
+						  } 
+						$html .='</a>
+						
+						</div>
+						<div class="directory_list_cn">
+						  <div class="card-body">
+							<div class="list_c_num">
+								<a href="tel:'.get_field('phone_number',get_the_ID()).'" class=""><i class="fa fa-phone" aria-hidden="true"></i> '.get_field('phone_number',get_the_ID()).'</a>
+							</div>
+							 <div class="list_c_head">
+								<a href="'.get_permalink().'"><h5>'.get_the_title().'</h5></a>
+								'.get_the_excerpt().'
+							 </div>
+							 <div class="list_c_links">
+								<a href="'.get_field('site_link',$directorylistings->ID).'"  target="_blank"><h6>'.get_field('site_domain',$directorylistings->ID).'</h6></a>
+								<a href="'.get_permalink().'" class="our_btn">learn more</a>
+							 </div>						  
+						  </div>
+						</div>
+					  </div>
+					</div>';
+		endwhile;
+		else:
+		$html='Sorry there is no post found';
+		endif;
+		echo json_encode(array('data'=>$html));
+	exit;
+}
+add_action('init', 'register_custom_posts_magzine');
+function register_custom_posts_magzine() {
+ 
+    $register_labels = array(
+        'name'               => 'magzine',
+        'singular_name'      => 'magzine',
+        'menu_name'          => 'Magzine'
+    );
+    $products_args = array(
+        'labels'             => $register_labels,
+        'public'             => true,
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'exclude_from_search' =>false,
+        'supports'           => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions','custom-fields')
+    );
+    register_post_type('magzine', $products_args);
+ }
+ 
+?>
