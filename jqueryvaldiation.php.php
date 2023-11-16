@@ -55,3 +55,28 @@ $(document).ready(function(){
 
 </body>
 </html>
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#amit").keyup(function(){
+  var amit=  $('#amit').val();
+         $('#sharma').val(amit);
+  });
+});
+</script>
+</head>
+<body>
+
+<h2>This is a heading</h2>
+
+<p>This is a paragraph.</p>
+<p>This is another paragraph.</p>
+<input type="text" id="amit">
+<input type="text" id="sharma">
+<button>Click me</button>
+
+</body>
+</html>
