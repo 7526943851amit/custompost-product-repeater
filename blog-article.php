@@ -33,7 +33,7 @@ $postslist = get_posts( $args );
                  	</div>
                      <div class="in-inner">
                         <h4><?php echo $blogs->post_title; ?></h4>
-                        <p><?php echo $blogs->post_content; ?></p>
+                        <p><p><?php echo wp_trim_words($blogs->post_content, 20); ?></p></p>
                         <a href="<?php echo get_permalink($blogs->ID); ?>" class="read">read more</a>
                      </div>
                   </div>
