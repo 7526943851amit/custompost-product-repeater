@@ -32,6 +32,7 @@ get_header();
                         <div class="p-4">
                             <a class="h3 d-block mb-3" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                             <p class="m-0"><?php the_excerpt(); ?></p>
+                            <?php echo wp_trim_words(get_the_content(), 20); ?>
                         </div>
                         <div class="d-flex justify-content-between border-top p-4">
                             <div class="d-flex align-items-center">
