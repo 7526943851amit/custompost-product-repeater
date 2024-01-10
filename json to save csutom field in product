@@ -1,0 +1,80 @@
+<?php
+/**
+ * Plugin Name: test-plugin
+ * Plugin URI: https://www.your-site.com/
+ * Description: Test.
+ * Version: 0.1
+ * Author: Amit sharma
+ * Author URI: https://www.your-site.com/
+ **/
+
+add_action('admin_menu', 'ai_tools_menu');
+
+function ai_tools_menu() {
+    add_menu_page('My plugin', 'My plugin', 'manage_options', 'my-plugin', 'my_plugin_page');
+}
+function my_plugin_page() {
+    $product_json_path = plugin_dir_path(__FILE__) . 'productdata.json';
+
+    if (file_exists($product_json_path)) {
+        $product_data = file_get_contents($product_json_path);
+        $json_data = json_decode($product_data, true);
+
+        foreach ($json_data as $data) {
+            $dsp_cbc = $data['dsp_cbc'];
+            $dsp_cbd = $data['dsp_cbd'];
+            $dsp_cbg = $data['dsp_cbg'];
+            $dsp_cbn = $data['dsp_cbn'];
+            $dsp_indica = $data['dsp_indica'];
+            $dsp_name = $data['dsp_name'];
+            $dsp_quantity = $data['dsp_quantity'];
+            $number = $data['dsp_rrp@OData.Community.Display.V1.FormattedValue'];
+            $dsp_rrp = $data['dsp_rrp'];
+            $dsp_sativa = $data['dsp_sativa'];
+            $format_value = $data['dsp_straintype@OData.Community.Display.V1.FormattedValue'];
+            $dsp_strength = $data['dsp_strength'];
+            $format_value2 = $data['dsp_tgadosageform@OData.Community.Display.V1.FormattedValue'];
+            $format_value3 =$data['dsp_wholesale@OData.Community.Display.V1.FormattedValue'];
+            $dsp_wholesale =$data['dsp_wholesale'];
+             $dsp_name2 =$data['dsp_Brand']['dsp_name'];
+            // echo $dsp_name2;
+            // die;
+            $dsp_productsid = intval($data['dsp_productsid']);
+          
+            // $my= wc_get_product();
+            // print_r($my);
+            // die;
+            $product = wc_get_product($dsp_productsid);
+
+            // echo $product;
+            // die;
+                $product_id = $product->get_id();
+                if ($dsp_productsid == $product_id) {
+                    update_post_meta($dsp_productsid, 'myfield1', $dsp_cbc);
+                    update_post_meta($dsp_productsid, 'myfield2', $dsp_cbd);
+                    update_post_meta($dsp_productsid, 'myfield3', $dsp_cbg);
+                    update_post_meta($dsp_productsid, 'myfield4', $dsp_cbn);
+                    update_post_meta($dsp_productsid, 'myfield5', $dsp_indica);
+                    update_post_meta($dsp_productsid, 'myfield6', $dsp_name);
+                    update_post_meta($dsp_productsid, 'myfield7', $dsp_quantity);
+                    update_post_meta($dsp_productsid, 'myfield8', $number);
+                    update_post_meta($dsp_productsid, 'myfield9', $dsp_rrp);
+                    update_post_meta($dsp_productsid, 'myfield10', $dsp_sativa);
+                    update_post_meta($dsp_productsid, 'myfield11', $format_value);
+                    update_post_meta($dsp_productsid, 'myfield12', $dsp_strength);
+                    update_post_meta($dsp_productsid, 'myfield13', $format_value2);
+                    update_post_meta($dsp_productsid, 'myfield14', $format_value3);
+                    update_post_meta($dsp_productsid, 'myfield15', $dsp_wholesale);
+                    update_post_meta($dsp_productsid, 'myfield16', $dsp_name2);
+                    
+                }
+            else {
+       
+                echo 'Error: Product not found for dsp_productsid: ' . $dsp_productsid . '<br>';
+            }
+        }
+    } else {
+        echo ' productdata.json file not found.';
+    }
+}
+
