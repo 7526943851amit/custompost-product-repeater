@@ -1,0 +1,203 @@
+<?php
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
+// BEGIN ENQUEUE PARENT ACTION
+// AUTO GENERATED - Do not modify or remove comment markers above or below:
+
+if ( !function_exists( 'chld_thm_cfg_locale_css' ) ):
+    function chld_thm_cfg_locale_css( $uri ){
+        if ( empty( $uri ) && is_rtl() && file_exists( get_template_directory() . '/rtl.css' ) )
+            $uri = get_template_directory_uri() . '/rtl.css';
+        return $uri;
+    }
+endif;
+add_filter( 'locale_stylesheet_uri', 'chld_thm_cfg_locale_css' );
+
+if ( !function_exists( 'chld_thm_cfg_parent_css' ) ):
+    function chld_thm_cfg_parent_css() {
+        wp_enqueue_style( 'chld_thm_cfg_parent', trailingslashit( get_template_directory_uri() ) . 'style.css', array(  ) );
+    }
+endif;
+add_action( 'wp_enqueue_scripts', 'chld_thm_cfg_parent_css', 10 );
+         
+if ( !function_exists( 'child_theme_configurator_css' ) ):
+    function child_theme_configurator_css() {
+        wp_enqueue_style( 'chld_thm_cfg_child', trailingslashit( get_stylesheet_directory_uri() ) . 'style.css', array( 'chld_thm_cfg_parent' ) );
+    }
+endif;
+add_action( 'wp_enqueue_scripts', 'child_theme_configurator_css', 10 );
+
+// END ENQUEUE PARENT ACTION
+
+
+
+function insert_content($post_excerpt) {
+    // Load field settings and values.
+    $field = get_field_object('acute_pain');
+    $colors = $field['value'];
+
+    // Display labels.
+    if ($colors) {
+        $content .= '<div class="info-list-block"><h5 class="infoListHeading"> Conditions </h5><ul class="infoList">';
+        foreach ($colors as $color) {
+            $content .= '<li>' . esc_html($field['choices'][$color]) . '</li>';
+        }
+        $content .= '</ul>';
+    }
+
+
+    
+    // Load field settings and values.
+    $field = get_field_object('analgesic');
+    $effect = $field['value'];
+
+    // Display labels.
+    if ($effect) {
+        $content .= '<h5 class="infoListHeading"> Effects</h5><ul class="infoList">';
+        foreach ($effect as $color) {
+            $content .= '<li>' . esc_html($field['choices'][$color]) . '</li>';
+        }
+        $content .= '</ul>';
+    }
+
+
+
+    // Load field settings and values.
+    $field = get_field_object('indica');
+    $strain = $field['value'];
+
+    // Display labels.
+    if ($strain) {
+        $content .= '<h5 class="infoListHeading"> Strain Type</h5><ul class="infoList">';
+        foreach ($strain as $color) {
+            $content .= '<li>' . esc_html($field['choices'][$color]) . '</li>';
+        }
+        $content .= '</ul>';
+    }
+
+
+        // Load field settings and values.
+        $field = get_field_object('a_cedrene');
+        $terpenes = $field['value'];
+    
+        // Display labels.
+        if ($terpenes) {
+            $content .= '<h5 class="infoListHeading"> Terpenes</h5><ul class="infoList">';
+            foreach ($terpenes as $color) {
+                $content .= '<li>' . esc_html($field['choices'][$color]) . '</li>';
+            }
+            $content .= '</ul>';
+        }
+
+
+
+               // Load field settings and values.
+               $field = get_field_object('category_1');
+               $category = $field['value'];
+           
+               // Display labels.
+               if ($category) {
+                   $content .= '<h5 class="infoListHeading"> TGA Category </h5><ul class="infoList">';
+                   foreach ($category as $color) {
+                       $content .= '<li>' . esc_html($field['choices'][$color]) . '</li>';
+                   }
+                   $content .= '</ul>';
+               }
+
+
+                  // Load field settings and values.
+                  $field = get_field_object('herb');
+                  $herb = $field['value'];
+              
+                  // Display labels.
+                  if ($herb) {
+                      $content .= '<h5 class="infoListHeading"> TGA Dosage Form</h5><ul class="infoList">';
+                      foreach ($herb as $color) {
+                          $content .= '<li>' . esc_html($field['choices'][$color]) . '</li>';
+                      }
+                      $content .= '</ul> </div>';
+                  }
+
+                  // Start  amit code 
+                
+               
+                  $brand = get_field('brand');
+                  $name = get_field('name');
+                  $wholesale = get_field('wholesale');
+                  $rrp = get_field('rrp');
+                  $quantity = get_field('quantity');
+                  $strength = get_field('strength');
+                  $tga_dosage_form = get_field('tga_dosage_form');
+                  $tga_category = get_field('tga_category');
+                  $cbd = get_field('cbd');
+                  $thc = get_field('thc');
+                  $cbc = get_field('cbc');
+                  $cbg = get_field('cbg');
+                  $cbn = get_field('cbn');
+                  $straintype = get_field('straintype');
+                  $indica = get_field('indica');
+                print_r($inidca);
+                  $spectrum = get_field('spectrum');
+                  $sativa = get_field('sativa');
+                   
+        
+                  if ($brand || $name || $wholesale ||$rrp || $quantity || $strength || $tga_dosage_form || $tga_category || $cbd || $thc || $cbc || $cbg || $cbn || $straintype || $indica || $spectrum || $sativa) {
+                    $content .= '<div class="info-list-block"><h5 class="infoListHeading">Product Information</h5>';
+    
+                  
+                    $content .= '<p>Brand: ' . $brand . '</p>';
+                    $content .= '<p>Name: ' . $name . '</p>';
+                    $content .= '<p>Wholesale: ' . $wholesale . '</p>';
+                    $content .= '<p>RRP: ' . $rrp . '</p>';
+                    $content .= '<p>Quantity: ' . $quantity . '</p>';
+                    $content .= '<p>Strength: ' . $strength . '</p>';
+                    $content .= '<p>TGA Dosage Form: ' . $tga_dosage_form . '</p>';
+                    $content .= '<p>TGA Category: ' . $tga_category . '</p>';
+                    $content .= '<p>CBD: ' . $cbd . '</p>';
+                    $content .= '<p>THC : ' . $thc . '</p>';
+                    $content .= '<p>CBC: ' . $cbc . '</p>';
+                    $content .= '<p>CBC: ' . $cbg . '</p>';
+                    $content .= '<p>cbn: ' . $cbn . '</p>';
+                    $content .= '<p>straintype: ' . $straintype . '</p>';
+                    $indica = implode(', ', $indica);
+                    $content .= '<p>indica: ' . $indica . '</p>';
+                    $content .= '<p>spectrum: ' . $spectrum . '</p>';
+                    $content .= '<p>sativa: ' . $sativa . '</p>';
+                    // ... Repeat the above pattern for other fields ...
+                
+                    $content .= '</div>';
+
+                  }
+                  //amit code end
+
+
+
+    return $content . '' . $post_excerpt;
+}
+
+add_filter('woocommerce_short_description', 'insert_content', 10, 1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
