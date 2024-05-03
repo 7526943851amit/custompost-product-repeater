@@ -633,9 +633,16 @@ if (function_exists('register_sidebar')) {
         'after_title'   => '</h2>'
     ));
 }
+
 apperance mein jakar fir widgets mein aa jaaynege nav mennu tab pe clcik krke bnate jao fir get aise krna footer mein 
 <?php dynamic_sidebar('footer-left-widget'); ?> je id pass krke
-
+add_filter('nav_menu_css_class' , 'special_nav_class' , 10 , 2);
+function special_nav_class($classes, $item){
+    if( in_array('current-menu-item', $classes) ){
+        $classes[] = 'active';
+    }
+    return $classes;
+}
 
 //hedaer dynamic 
 
