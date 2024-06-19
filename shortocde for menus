@@ -1,0 +1,12 @@
+function landing_page_menu_shortcode() {
+    ob_start();
+    wp_nav_menu(array(
+        'theme_location' => 'landing-page-menu',
+        'menu'           => 'Landing-page Menu',
+        'container'      => 'div',
+        'container_class'=> 'landing-page-menu-container',
+        'menu_class'     => 'landing-page-menu',
+    ));
+    return ob_get_clean();
+}
+add_shortcode('landing_page_menu', 'landing_page_menu_shortcode');
